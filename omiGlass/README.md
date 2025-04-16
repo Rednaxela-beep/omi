@@ -39,11 +39,18 @@ Follow these steps to set up omiglass:
 
 ### Software
 
-1. Clone the omiglass repository and install the dependencies:
+1. Prerequisites
+   You need to install Web Application on Linux machine to use OmiGlass. Ubuntu 24 or Debian 12 recommended.
+   Install the requered pakages:
+    ```
+    apt install -y npm
+    snap install ollama
+    ```
+3. Clone the omiglass repository and install the dependencies:
 
    ```
    git clone https://github.com/BasedHardware/omi.git
-   cd omiglass
+   cd omi/omiGlass
    npm install
    ```
 
@@ -53,12 +60,45 @@ Follow these steps to set up omiglass:
    yarn install
    ```
 
-2. Add API keys for Groq and OpenAI in the `keys.ts` file located at [https://github.com/BasedHardware/omiglass/blob/main/sources/keys.ts](https://github.com/BasedHardware/omiglass/blob/main/sources/keys.ts).
+4. Add API keys for Groq and OpenAI into the [keys.ts file](https://github.com/BasedHardware/omi/blob/main/omiGlass/sources/keys.ts).
+   Also add URL For the [Ollama](https://github.com/ollama/ollama) self-host REST API. The URL should be http://localhost:11434/api/chat
+   <details>
+   <summary>Click to understand how to do that</summary>
+   Groq API Key
+   
+      Go to [GroqCloud](https://console.groq.com/login) and sign up.
+      After logging in, create an API key in the API Access section.
+      Use this key in keys.ts to interact with the Groq API.
+   
+   OpenAI API Key
 
-3. For Ollama, self-host the REST API from the repository at [https://github.com/ollama/ollama](https://github.com/ollama/ollama) and add the URL to the `keys.ts` file. The URL should be http://localhost:11434/api/chat
-4. go to terminal and type "ollama pull moondream:1.8b-v2-fp16"
+   Sign up or log in at OpenAI.
+   Navigate to the API Keys section in your account.
+   Generate a new API key and add it to keys.ts.
+   
+   Once you have your keys, ensure they are correctly set the environments for the keys.ts:
 
-5. Start the application:
+   Create '.env' file at the omi/omiGlass directory:
+
+   ```
+   nano .env
+   ```
+Place here your API Keys and save the file:
+```
+   EXPO_PUBLIC_GROQ_API_KEY=your_groq_api_key
+   EXPO_PUBLIC_OLLAMA_API_URL=http://localhost:11434/api/chat
+   EXPO_PUBLIC_OPENAI_API_KEY=your_openai_api_key
+```            
+   </details>
+
+4. For Ollama, self-host the REST API from the repository at [https://github.com/ollama/ollama](https://github.com/ollama/ollama) and add the URL to the `keys.ts` file. The URL should be http://localhost:11434/api/chat
+
+5. Pull the Ollama self-host the REST API
+   ```
+   ollama pull moondream:1.8b-v2-fp16
+   ```
+
+7. Start the application:
 
    ```
    npm start
@@ -69,10 +109,11 @@ Follow these steps to set up omiglass:
    ```
    yarn start
    ```
+   
+8. Open Web version
+   
+   Note: This is an Expo project. For now, open the localhost link (this will appear after completing step 7) to access the web version.
 
-   Note: This is an Expo project. For now, open the localhost link (this will appear after completing step 5) to access the web version.
-
-How you can contribute in software: 
 - [ ] Connect glasses with omi app. Currently the glasses only work with web interface
 
 ### Hardware
@@ -91,12 +132,12 @@ How you can contribute in hardware:
 - [ ] add a switch into design (current design is without switch)
 
 ### Firmware
-1. Open the [firmware folder](https://github.com/BasedHardware/omiglass/tree/main/firmware) and open the `.ino` file in the Arduino IDE.
-
+1. Download the 'firmware.ino' from the [firmware folder](https://github.com/BasedHardware/omi/tree/main/omiGlass/firmware) and open  in the Arduino IDE. Note that '.ino' file needs to be inside on 'firmware' folder before opening it.
+https://git-scm.com/downloads/win
    - If you don't have the Arduino IDE installed, download and install it from the [official website](https://www.arduino.cc/en/software).
    - Alternatively, follow the steps in the [firmware readme](firmware/readme.md) to build using `arduino-cli`
 
-2. Follow the software preparation steps to set up the Arduino IDE for the XIAO ESP32S3 board:
+4. Follow the software preparation steps to set up the Arduino IDE for the XIAO ESP32S3 board:
 
    - Add ESP32 board package to your Arduino IDE:
      - Navigate to File > Preferences, and fill "Additional Boards Manager URLs" with the URL: `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`
@@ -105,7 +146,7 @@ How you can contribute in hardware:
      - On top of the Arduino IDE, select the port (likely to be COM3 or higher).
      - Search for `xiao` in the development board on the left and select `XIAO_ESP32S3`.
 
-3. Before you flash go to the "Tools" drop down in the Arduino IDE and make sure you set "PSRAM:" to be "PSRAM: "OPI PSRAM"
+5. Before you flash go to the "Tools" drop down in the Arduino IDE and make sure you set "PSRAM:" to be "PSRAM: "OPI PSRAM"
 
 ![Like this](image.png)
 
